@@ -7,6 +7,7 @@ export default {
     '!**/protocols/**',
     '!**/test/**'
   ],
+  coverageProvider: 'babel',
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
   transform: {
