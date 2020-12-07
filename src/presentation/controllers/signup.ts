@@ -1,4 +1,4 @@
-import { ServerError } from './../erros/server-error'
+import { serverError } from './../helpers/http-helper'
 import { InvalidParamError } from './../erros/invalid-params-error'
 import { EmailValidator } from './../protocols/email-validator'
 import { Controller } from './../protocols/controller'
@@ -26,10 +26,7 @@ export class SignUpController implements Controller {
         return badRequest(new InvalidParamError('email'))
       }
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: new ServerError()
-      }
+      return serverError()
     }
   }
 }
