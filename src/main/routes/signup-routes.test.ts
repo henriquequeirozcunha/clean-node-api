@@ -20,7 +20,7 @@ describe('SignUp Routes', () => {
         name: 'Henrique',
         email: 'henrique@email.com',
         password: '123',
-        password_confirmation: '123'
+        passwordConfirmation: '123'
       })
       .expect(200)
   })
