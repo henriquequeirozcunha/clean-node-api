@@ -2,6 +2,11 @@ import { MongoHelper } from '../helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { LogMongoRepository } from './log'
 
+const makeSut = (): LogMongoRepository => {
+  const sut = new LogMongoRepository()
+  return sut
+}
+
 describe('Log Mongo Repository', () => {
   let errorCollection: Collection
   beforeAll(async () => {
@@ -15,7 +20,7 @@ describe('Log Mongo Repository', () => {
     await errorCollection.deleteMany({})
   })
   test('Should create an error log on success ', async () => {
-    const sut = new LogMongoRepository()
+    const sut = makeSut()
     await sut.logError('any_error')
     const count = await errorCollection.countDocuments()
     // countDocuments retorna a quantidade de documentos na collection. Como no beforeEach ele limpa a tabela.
