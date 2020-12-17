@@ -17,7 +17,7 @@ describe('Login Controller', () => {
     const sut = new LoginController()
     const httpRequest: HttpRequest = {
       body: {
-        password: 'any_password'
+        email: 'any_email@mail.com'
       }
     }
     const httpResponse: HttpResponse = await sut.handle(httpRequest)
