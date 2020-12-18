@@ -1,10 +1,14 @@
+import { UnauthorizedError } from './../erros/unauthorized-error'
 import { ServerError } from './../erros/server-error'
 import { HttpResponse } from './../protocols/http'
-import { MissingParamError } from '../erros/missing-params-error'
 
-export const badRequest = (error: MissingParamError): HttpResponse => ({
+export const badRequest = (error: Error): HttpResponse => ({
   statusCode: 400,
   body: error
+})
+export const unauthorized = (): HttpResponse => ({
+  statusCode: 401,
+  body: new UnauthorizedError()
 })
 export const serverError = (error: Error): HttpResponse => ({
   statusCode: 500,
