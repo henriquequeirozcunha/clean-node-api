@@ -1,5 +1,5 @@
 import { Authentication } from './../../../domain/usecases/authentication'
-import { badRequest, serverError, unauthorized, ok } from './../../helpers/http-helper'
+import { badRequest, serverError, unauthorized, ok } from '../../helpers/http/http-helper'
 import { Controller } from './../../protocols/controller'
 import { HttpRequest, HttpResponse } from '../../protocols/http'
 import { Validation } from '../../helpers/validators/validation'
