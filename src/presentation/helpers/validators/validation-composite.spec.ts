@@ -39,4 +39,9 @@ describe('ValidatorComposite', () => {
     const error = sut.validate({ input: 'any_input' })
     expect(error).toEqual(new Error())
   })
+  test('Should not return if validations succeeds', () => {
+    const { sut } = makeSut()
+    const error = sut.validate({ input: 'any_input' })
+    expect(error).toBeFalsy()
+  })
 })
