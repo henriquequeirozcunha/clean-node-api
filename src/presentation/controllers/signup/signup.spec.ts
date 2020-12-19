@@ -3,7 +3,7 @@ import { HttpRequest } from '../../protocols/http'
 import { SignUpController } from './signup'
 import { AddAccount, AddAccountModel } from '../../../domain/usecases/add-account'
 import { AccountModel } from '../../../domain/models/account'
-import { Validation } from '../../helpers/validators/validation'
+import { Validation } from '../../protocols/validation'
 import { ServerError } from '../../erros/server-error'
 
 interface SutTypes {
