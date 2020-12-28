@@ -5,28 +5,22 @@
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
 [![Open Source](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://opensource.org/)
 
-# **Clean Node API**
+# **Clean Node API** ** ( Em Desenvolvimento ) **
 
-[![alt text](./public/img/logo-course.png "Link para o treinamento")](https://www.udemy.com/course/tdd-com-mango/?referralCode=B53CE5CA2B9AFA5A6FA1)
+API em desenvolvimento!!! Estou seguindo o curso do Rodrigo Manguinho na Udemy!
 
----
+API com uma arquitetura bem definida e desacoplada, utilizando TDD (programação orientada a testes) como metodologia de trabalho, Clean Architecture para fazer a distribuição de responsabilidades em camadas, seguindo os princípios do SOLID.
 
-## [**Link para o curso completo**](https://www.udemy.com/course/tdd-com-mango/?referralCode=B53CE5CA2B9AFA5A6FA1)
-
-Essa API faz parte do treinamento do professor Rodrigo Manguinho (Mango) na Udemy.
-
-O objetivo do treinamento é mostrar como criar uma API com uma arquitetura bem definida e desacoplada, utilizando TDD (programação orientada a testes) como metodologia de trabalho, Clean Architecture para fazer a distribuição de responsabilidades em camadas, sempre seguindo os princípios do SOLID e, sempre que possível, aplicando Design Patterns para resolver alguns problemas comuns.
-
-## [**Link para a documentação da API**](http://fordevs.herokuapp.com/api-docs)
+## [**Link para a documentação da API**] ( Em Desenvolvimento )
 
 > ## APIs construídas no treinamento
 
 1. [Cadastro](./requirements/signup.md)
 2. [Login](./requirements/login.md)
-3. [Criar enquete](./requirements/add-survey.md)
-4. [Listar enquetes](./requirements/load-surveys.md)
-5. [Responder enquete](./requirements/save-survey-result.md)
-6. [Resultado da enquete](./requirements/load-survey-result.md)
+3. [Criar enquete] (Pendente)
+4. [Listar enquetes]  (Pendente)
+5. [Responder enquete]  (Pendente)
+6. [Resultado da enquete]  (Pendente)
 
 > ## Princípios
 
