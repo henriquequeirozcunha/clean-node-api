@@ -1,5 +1,5 @@
 import { badRequest, serverError , ok } from '../../helpers/http/http-helper'
-import { HttpRequest } from '../../protocols/http'
+import { HttpRequest, HttpResponse } from '../../protocols/http'
 import { SignUpController } from './signup-controller'
 import { AddAccount, AddAccountModel } from '../../../domain/usecases/add-account'
 import { AccountModel } from '../../../domain/models/account'
@@ -120,5 +120,13 @@ describe('SignUp Controller', () => {
       email: fakeRequest.body.email,
       password: fakeRequest.body.password
     })
+  })
+  test('Should return 500 if Authetication throws', async () => {
+    const { sut, authenticationStub } = makeSut()
+    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(
+      new Promise((resolve, reject) => reject(new Error()))
+    )
+    const httpResponse: HttpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
