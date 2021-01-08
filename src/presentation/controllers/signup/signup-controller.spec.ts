@@ -5,11 +5,13 @@ import { AddAccount, AddAccountModel } from '../../../domain/usecases/add-accoun
 import { AccountModel } from '../../../domain/models/account'
 import { Validation } from '../../protocols/validation'
 import { ServerError } from '../../erros/server-error'
+import { Authentication, AuthenticationModel } from '../../../domain/usecases/authentication'
 
 interface SutTypes {
   sut: SignUpController
   addAccountStub: AddAccount
   validationStub: Validation
+  authenticationStub: Authentication
 
 }
 
@@ -29,6 +31,14 @@ const makeValidation = (): Validation => {
   }
   return new ValidationStub()
 }
+const makeAuthentication = (): Authentication => {
+  class AuthenticationStub implements Authentication {
+    async auth (authentication: AuthenticationModel): Promise<string> {
+      return await new Promise(resolve => resolve('any_token'))
+    }
+  }
+  return new AuthenticationStub()
+}
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -40,11 +50,13 @@ const makeFakeAccount = (): AccountModel => ({
 const makeSut = (): SutTypes => {
   const validationStub = makeValidation()
   const addAccountStub = makeAddAccount()
-  const sut = new SignUpController(addAccountStub, validationStub)
+  const authenticationStub = makeAuthentication()
+  const sut = new SignUpController(addAccountStub, validationStub, authenticationStub)
   return {
     sut,
     addAccountStub,
-    validationStub
+    validationStub,
+    authenticationStub
   }
 }
 
@@ -98,5 +110,15 @@ describe('SignUp Controller', () => {
     expect(httpResponse).toEqual(ok(makeFakeAccount()))
     // expect(httpResponse.statusCode).toBe(200)
     // expect(httpResponse.body).toEqual(makeFakeAccount())
+  })
+  test('Should call Authentication with correct email', async () => {
+    const { sut, authenticationStub } = makeSut()
+    const authSpy = jest.spyOn(authenticationStub, 'auth')
+    const fakeRequest = makeFakeRequest()
+    await sut.handle(fakeRequest)
+    expect(authSpy).toHaveBeenCalledWith({
+      email: fakeRequest.body.email,
+      password: fakeRequest.body.password
+    })
   })
 })
