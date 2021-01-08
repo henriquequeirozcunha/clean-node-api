@@ -1,3 +1,5 @@
+import { EmailInUseError } from './../../erros/email-in-use-error'
+import { forbidden } from './../../helpers/http/http-helper'
 import { badRequest, serverError , ok } from '../../helpers/http/http-helper'
 import { HttpRequest, HttpResponse } from '../../protocols/http'
 import { SignUpController } from './signup-controller'
@@ -102,6 +104,13 @@ describe('SignUp Controller', () => {
     expect(httpResponse).toEqual(serverError(new ServerError()))
     // expect(httpResponse.statusCode).toBe(500)
     // expect(httpResponse.body).toEqual(new ServerError())
+  })
+  test('Should return 403 if AddAccount returns null', async () => {
+    const { sut, addAccountStub } = makeSut()
+    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    const httpRequest = makeFakeRequest()
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })
   test('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut()
