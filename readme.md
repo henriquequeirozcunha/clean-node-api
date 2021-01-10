@@ -10,13 +10,13 @@ API com uma arquitetura bem definida e desacoplada, utilizando TDD (programaçã
 ## [**Link para a documentação da API**] ( Em Desenvolvimento )
 
 > ## APIs construídas no treinamento
-
-1. [Cadastro](./requirements/signup.md)
-2. [Login](./requirements/login.md)
-3. [Criar enquete] (Pendente)
-4. [Listar enquetes]  (Pendente)
-5. [Responder enquete]  (Pendente)
-6. [Resultado da enquete]  (Pendente)
+ 
+1. [Cadastro](./requirements/signup.md) ✅
+2. [Login](./requirements/login.md) ✅
+3. [Criar enquete](./requirements/add-survey.md) (Pendente)
+4. [Listar enquetes](./requirements/load-surveys.md)  (Pendente)
+5. [Responder enquete](./requirements/save-survey-result.md)  (Pendente)
+6. [Resultado da enquete](./requirements/load-survey-resylt.md)   (Pendente)
 
 > ## Princípios
 
