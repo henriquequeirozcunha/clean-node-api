@@ -1,5 +1,5 @@
-import { Validation } from '../../protocols/validation'
-import { MissingParamError } from '../../erros'
+import { Validation } from '../../presentation/protocols'
+import { MissingParamError } from '../../presentation/erros'
 
 export class RequiredFieldValidation implements Validation {
   constructor (private readonly fieldName: string) { }
