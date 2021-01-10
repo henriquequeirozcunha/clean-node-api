@@ -29,6 +29,23 @@ describe('Login Routes', () => {
         })
         .expect(200)
     })
+    test('Should return 403 if email is already in use', async () => {
+      const password = await hash('123',12)
+      await accountCollection.insertOne({
+        name: 'Henrique',
+        email: 'henrique@email.com',
+        password
+      })
+      await request(app)
+        .post('/api/signup')
+        .send({
+          name: 'Henrique',
+          email: 'henrique@email.com',
+          password: '123',
+          passwordConfirmation: '123'
+        })
+        .expect(403)
+    })
   })
   describe('POST /login', () => {
     test('Should return 200 on login', async () => {
