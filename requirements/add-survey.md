@@ -6,7 +6,7 @@
 2. ⛔️ Valida se a requisição foi feita por um **admin**
 3. ⛔️ Valida dados obrigatórios **question** e **answers**
 4. ⛔️ **Cria** uma enquete com os dados fornecidos
-5. ⛔️ Retorna **204**, sem dados
+5. ✅ Retorna **204**, sem dados
 
 > ## Exceções
 
