@@ -3,13 +3,12 @@ import { badRequest, serverError, noContent } from './../../../helpers/http/http
 import { AddSurveyController } from './add-survey-controller'
 import { HttpRequest } from './../../../protocols/http'
 import { Validation } from './../../../protocols/validation'
-import { SurveyModel } from '../../../../domain/models/survey'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: makeFakeSurvey()
 })
 
-const makeFakeSurvey = (): SurveyModel => ({
+const makeFakeSurvey = (): AddSurveyModel => ({
   question: 'any_question',
   answers: [{
     image: 'any_image',
