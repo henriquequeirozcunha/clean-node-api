@@ -18,7 +18,7 @@ const makeFakeAccount = (): AccountModel => ({
   password: 'valid_password'
 })
 
-const makeLoadAccountByTokenStub = (): LoadAccountByToken => {
+const makeLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
     async load (accessToken: String, role?: String): Promise<AccountModel> {
       return await new Promise(resolve => resolve(makeFakeAccount()))
@@ -33,7 +33,7 @@ interface SutTypes {
   loadAccountByTokenStub: LoadAccountByToken
 }
 const makeSut = (): SutTypes => {
-  const loadAccountByTokenStub = makeLoadAccountByTokenStub()
+  const loadAccountByTokenStub = makeLoadAccountByToken()
   const sut = new AuthMiddleware(loadAccountByTokenStub)
   return {
     sut,
