@@ -6,5 +6,5 @@ import { adaptMiddleware } from '../adapters/express/express-middleware-adapter'
 
 export default (router: Router): void => {
   const adminAuth = adaptMiddleware(makeAuthMiddleware('admin'))
-  router.post('/surveys', adminAuth ,adaptRoute(makeAddSurveyController()))
+  router.post('/surveys', adminAuth, adaptRoute(makeAddSurveyController()))
 }
