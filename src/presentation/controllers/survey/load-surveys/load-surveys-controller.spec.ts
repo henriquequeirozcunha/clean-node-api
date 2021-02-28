@@ -1,3 +1,4 @@
+import { ok } from './../../../helpers/http/http-helper'
 import { LoadSurveys } from './../../../../domain/usecases/load-survey'
 import { LoadSurveysController } from './load-surveys-controller'
 import { SurveyModel } from '../../../../domain/models/survey'
@@ -59,5 +60,10 @@ describe('LoadSurveys Controller', () => {
     const loadSpy = jest.spyOn(loadSurveysStub, 'load')
     await sut.handle({})
     expect(loadSpy).toHaveBeenCalled()
+  })
+  test('Should return 200 on success', async () => {
+    const { sut } = makeSut()
+    const httpRespone = await sut.handle({})
+    expect(httpRespone).toEqual(ok(makeFakeSurveys()))
   })
 })
