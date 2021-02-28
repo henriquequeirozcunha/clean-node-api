@@ -1,6 +1,11 @@
-import { SurveyItemModel } from './survey-item'
-
 export interface SurveyModel {
+  id: string
   question: string
-  answers: SurveyItemModel[]
+  answers: SurveyAnswerModel[]
+  date: Date
+}
+
+export interface SurveyAnswerModel {
+  image?: string
+  answer: string
 }
