@@ -8,6 +8,25 @@ import { sign } from 'jsonwebtoken'
 let surveyCollection: Collection
 let accountCollection: Collection
 
+const makeAccessToken = async (): Promise<string> => {
+  const res = await accountCollection.insertOne({
+    name: 'Henrique',
+    email: 'henrique@email.com',
+    password: '123',
+    role: 'admin'
+  })
+  const id = res.ops[0]._id
+  const accessToken = sign({ id }, env.jwtSecret)
+  await accountCollection.updateOne({
+    _id: id
+  }, {
+    $set: {
+      accessToken
+    }
+  })
+  return accessToken
+}
+
 describe('Login Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -38,21 +57,7 @@ describe('Login Routes', () => {
         .expect(403)
     })
     test('Should return 204 on add survey with valid accessToken', async () => {
-      const res = await accountCollection.insertOne({
-        name: 'Henrique',
-        email: 'henrique@email.com',
-        password: '123',
-        role: 'admin'
-      })
-      const id = res.ops[0]._id
-      const accessToken = sign({ id }, env.jwtSecret)
-      await accountCollection.updateOne({
-        _id: id
-      }, {
-        $set: {
-          accessToken
-        }
-      })
+      const accessToken = await makeAccessToken()
       await request(app)
         .post('/api/surveys')
         .set('x-access-token', accessToken)
@@ -76,20 +81,7 @@ describe('Login Routes', () => {
         .expect(403)
     })
     test('Should return 200 on load survey with valid accessToken', async () => {
-      const res = await accountCollection.insertOne({
-        name: 'Henrique',
-        email: 'henrique@email.com',
-        password: '123'
-      })
-      const id = res.ops[0]._id
-      const accessToken = sign({ id }, env.jwtSecret)
-      await accountCollection.updateOne({
-        _id: id
-      }, {
-        $set: {
-          accessToken
-        }
-      })
+      const accessToken = await makeAccessToken()
       await surveyCollection.insertMany([{
         question: 'any_question',
         answers: [{
