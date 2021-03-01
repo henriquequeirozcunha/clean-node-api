@@ -68,7 +68,7 @@ describe('Survey MongoDB Repository', () => {
       expect(surveys[0].question).toBe('any_question')
       expect(surveys[1].question).toBe('other_question')
     })
-    test('Should loadAll a surveys on success', async () => {
+    test('Should return an empty list if there is no surveys', async () => {
       const sut = makeSut()
       const surveys = await sut.loadAll()
       expect(surveys.length).toBe(0)
