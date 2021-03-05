@@ -1,9 +1,9 @@
-import { LoadAccountByToken } from './../../../domain/usecases/load-account-by-token'
+import { HttpRequest, HttpResponse } from '@/presentation/protocols'
+import { AccountModel } from '@/domain/models/account'
+import { LoadAccountByToken } from '@/domain/usecases/load-account-by-token'
 import { AuthMiddleware } from './auth-middleware'
-import { AccessDeniedError } from './../../erros'
-import { forbidden, ok, serverError } from './../../helpers/http/http-helper'
-import { HttpResponse, HttpRequest } from './../../protocols/http'
-import { AccountModel } from '../../../domain/models/account'
+import { forbidden, serverError, ok } from '@/presentation/helpers/http/http-helper'
+import { AccessDeniedError } from '@/presentation/erros'
 
 const makeFakeRequest = (): HttpRequest => ({
   headers: {

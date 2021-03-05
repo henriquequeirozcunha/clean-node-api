@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
-import { Middleware } from './../../../presentation/protocols/middleware'
-import { HttpRequest } from '../../../presentation/protocols'
+import { Middleware } from '@/presentation/protocols/middleware'
+import { HttpRequest } from '@/presentation/protocols'
 
 export const adaptMiddleware = (middleware: Middleware) => {
   return async (req: Request, res: Response, next: NextFunction) => {
