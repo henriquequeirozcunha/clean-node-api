@@ -1,13 +1,10 @@
-import { EmailInUseError } from './../../erros/email-in-use-error'
-import { forbidden } from './../../helpers/http/http-helper'
-import { badRequest, serverError , ok } from '../../helpers/http/http-helper'
-import { HttpRequest, HttpResponse } from '../../protocols/http'
 import { SignUpController } from './signup-controller'
-import { AddAccount, AddAccountModel } from '../../../domain/usecases/add-account'
-import { AccountModel } from '../../../domain/models/account'
-import { ServerError } from '../../erros/server-error'
-import { Authentication, AuthenticationModel } from '../../../domain/usecases/authentication'
-import { Validation } from '../../protocols'
+import { AddAccount, AddAccountModel } from '@/domain/usecases/add-account'
+import { Validation, HttpRequest, HttpResponse } from '@/presentation/protocols'
+import { Authentication, AuthenticationModel } from '@/domain/usecases/authentication'
+import { AccountModel } from '@/domain/models/account'
+import { badRequest, serverError, forbidden, ok } from '@/presentation/helpers/http/http-helper'
+import { ServerError, EmailInUseError } from '@/presentation/erros'
 
 interface SutTypes {
   sut: SignUpController
