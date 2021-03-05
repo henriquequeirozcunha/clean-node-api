@@ -44,6 +44,8 @@ describe('Email Validation', () => {
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
       return false
     })
-    expect(sut.validate({ email: 'any_email@email.com' })).toEqual(new InvalidParamError('email'))
+    expect(sut.validate({ email: 'any_email@email.com' })).toEqual(
+      new InvalidParamError('email')
+    )
   })
 })

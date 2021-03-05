@@ -6,7 +6,7 @@ import { DbLoadAccountByToken } from './db-load-account-by-token'
 const makeDecrypter = (): Decrypter => {
   class DecrypterStub implements Decrypter {
     async decrypt (value: string): Promise<string> {
-      return await new Promise(resolve => resolve('any_value'))
+      return await new Promise((resolve) => resolve('any_value'))
     }
   }
   return new DecrypterStub()
@@ -20,9 +20,13 @@ const makeFakeAccount = (): AccountModel => ({
 })
 
 const makeLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
-  class LoadAccountByTokenRepositoryStub implements LoadAccountByTokenRepository {
-    async loadByToken (accessToken: string, role?: string): Promise<AccountModel> {
-      return await new Promise(resolve => resolve(makeFakeAccount()))
+  class LoadAccountByTokenRepositoryStub
+  implements LoadAccountByTokenRepository {
+    async loadByToken (
+      accessToken: string,
+      role?: string
+    ): Promise<AccountModel> {
+      return await new Promise((resolve) => resolve(makeFakeAccount()))
     }
   }
   return new LoadAccountByTokenRepositoryStub()
@@ -37,7 +41,10 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const decrypterStub = makeDecrypter()
   const loadAccountByTokenRepositoryStub = makeLoadAccountByTokenRepository()
-  const sut = new DbLoadAccountByToken(decrypterStub, loadAccountByTokenRepositoryStub)
+  const sut = new DbLoadAccountByToken(
+    decrypterStub,
+    loadAccountByTokenRepositoryStub
+  )
   return {
     sut,
     decrypterStub,
@@ -54,19 +61,26 @@ describe('DbLoadAccountByToken Usecase', () => {
   })
   test('Should return null if Decrypter returns null', async () => {
     const { sut, decrypterStub } = makeSut()
-    jest.spyOn(decrypterStub, 'decrypt').mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    jest
+      .spyOn(decrypterStub, 'decrypt')
+      .mockReturnValueOnce(new Promise((resolve) => resolve(null)))
     const account = await sut.load('any_token', 'any_role')
     expect(account).toBeNull()
   })
   test('Should call LoadAccountByTokenRepository with correct values', async () => {
     const { sut, loadAccountByTokenRepositoryStub } = makeSut()
-    const loadByToken = jest.spyOn(loadAccountByTokenRepositoryStub, 'loadByToken')
+    const loadByToken = jest.spyOn(
+      loadAccountByTokenRepositoryStub,
+      'loadByToken'
+    )
     await sut.load('any_token', 'any_role')
     expect(loadByToken).toHaveBeenCalledWith('any_token', 'any_role')
   })
   test('Should return null if LoadAccountByTokenRepository returns null', async () => {
     const { sut, loadAccountByTokenRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByTokenRepositoryStub, 'loadByToken').mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    jest
+      .spyOn(loadAccountByTokenRepositoryStub, 'loadByToken')
+      .mockReturnValueOnce(new Promise((resolve) => resolve(null)))
     const account = await sut.load('any_token', 'any_role')
     expect(account).toBeNull()
   })
@@ -77,13 +91,21 @@ describe('DbLoadAccountByToken Usecase', () => {
   })
   test('Should throw if Decrypter throws ', async () => {
     const { sut, decrypterStub } = makeSut()
-    jest.spyOn(decrypterStub, 'decrypt').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest
+      .spyOn(decrypterStub, 'decrypt')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      )
     const promise = sut.load('any_token', 'any_role')
     await expect(promise).rejects.toThrow()
   })
   test('Should throw if LoadAccountByTokenRepository throws ', async () => {
     const { sut, loadAccountByTokenRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByTokenRepositoryStub, 'loadByToken').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest
+      .spyOn(loadAccountByTokenRepositoryStub, 'loadByToken')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      )
     const promise = sut.load('any_token', 'any_role')
     await expect(promise).rejects.toThrow()
   })

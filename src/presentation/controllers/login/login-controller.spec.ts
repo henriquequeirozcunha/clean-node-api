@@ -1,7 +1,19 @@
-import { Validation, HttpRequest, HttpResponse } from '@/presentation/protocols'
-import { Authentication, AuthenticationModel } from '@/domain/usecases/authentication'
+import {
+  Validation,
+  HttpRequest,
+  HttpResponse
+} from '@/presentation/protocols'
+import {
+  Authentication,
+  AuthenticationModel
+} from '@/domain/usecases/authentication'
 import { LoginController } from './login-controller'
-import { badRequest, unauthorized, serverError, ok } from '@/presentation/helpers/http/http-helper'
+import {
+  badRequest,
+  unauthorized,
+  serverError,
+  ok
+} from '@/presentation/helpers/http/http-helper'
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -14,7 +26,7 @@ const makeValidation = (): Validation => {
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
     async auth (authentication: AuthenticationModel): Promise<string> {
-      return await new Promise(resolve => resolve('any_token'))
+      return await new Promise((resolve) => resolve('any_token'))
     }
   }
   return new AuthenticationStub()
@@ -70,25 +82,29 @@ describe('Login Controller', () => {
   })
   test('Should return 401 if Invalid Credentials are provided', async () => {
     const { sut, authenticationStub } = makeSut()
-    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(
-      new Promise(resolve => resolve(null))
-    )
+    jest
+      .spyOn(authenticationStub, 'auth')
+      .mockReturnValueOnce(new Promise((resolve) => resolve(null)))
     const httpResponse: HttpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(unauthorized())
   })
   test('Should return 500 if Authetication throws', async () => {
     const { sut, authenticationStub } = makeSut()
-    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(
-      new Promise((resolve, reject) => reject(new Error()))
-    )
+    jest
+      .spyOn(authenticationStub, 'auth')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      )
     const httpResponse: HttpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })
   test('Should return 200 if Valid Credentials are provided', async () => {
     const { sut } = makeSut()
     const httpResponse: HttpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(ok({
-      accessToken: 'any_token'
-    }))
+    expect(httpResponse).toEqual(
+      ok({
+        accessToken: 'any_token'
+      })
+    )
   })
 })

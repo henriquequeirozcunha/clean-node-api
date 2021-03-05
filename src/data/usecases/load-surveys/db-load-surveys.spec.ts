@@ -4,30 +4,36 @@ import { LoadSurveysRepository } from '@/data/protocols/db/survey/load-surveys-r
 import { DbLoadSurveys } from './db-load-surveys'
 
 const makeFakeSurveys = (): SurveyModel[] => {
-  return [{
-    id: 'any_id',
-    question: 'any_question',
-    answers: [{
-      image: 'any_image',
-      answer: 'any_answer'
-    }],
-    date: new Date()
-  },
-  {
-    id: 'other_id',
-    question: 'other_question',
-    answers: [{
-      image: 'other_image',
-      answer: 'other_answer'
-    }],
-    date: new Date()
-  }]
+  return [
+    {
+      id: 'any_id',
+      question: 'any_question',
+      answers: [
+        {
+          image: 'any_image',
+          answer: 'any_answer'
+        }
+      ],
+      date: new Date()
+    },
+    {
+      id: 'other_id',
+      question: 'other_question',
+      answers: [
+        {
+          image: 'other_image',
+          answer: 'other_answer'
+        }
+      ],
+      date: new Date()
+    }
+  ]
 }
 
 const makeLoadSurveysRepository = (): LoadSurveysRepository => {
   class LoadSurveysRepositoryStub implements LoadSurveysRepository {
     async loadAll (): Promise<SurveyModel[]> {
-      return await new Promise(resolve => resolve(makeFakeSurveys()))
+      return await new Promise((resolve) => resolve(makeFakeSurveys()))
     }
   }
 
@@ -68,7 +74,11 @@ describe('DbLoadSurveys', () => {
   })
   test('Should throw if LoadSurveysRepository throws ', async () => {
     const { sut, loadSurveysStub } = makeSut()
-    jest.spyOn(loadSurveysStub, 'loadAll').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest
+      .spyOn(loadSurveysStub, 'loadAll')
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      )
     const promise = sut.load()
     await expect(promise).rejects.toThrow()
   })

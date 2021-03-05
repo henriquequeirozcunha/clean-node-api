@@ -11,7 +11,7 @@ interface SutTypes {
 const makeAddSurveyRepository = (): AddSurveyRepository => {
   class AddSurveyRepositoryStub implements AddSurvey {
     async add (data: AddSurveyModel): Promise<void> {
-      return await new Promise(resolve => resolve())
+      return await new Promise((resolve) => resolve())
     }
   }
   return new AddSurveyRepositoryStub()
@@ -28,10 +28,12 @@ const makeSut = (): SutTypes => {
 
 const makeFakeSurvey = (): AddSurveyModel => ({
   question: 'any_question',
-  answers: [{
-    image: 'any_image',
-    answer: 'any_answer'
-  }],
+  answers: [
+    {
+      image: 'any_image',
+      answer: 'any_answer'
+    }
+  ],
   date: new Date()
 })
 
@@ -50,9 +52,11 @@ describe('DbAddSurvey UseCase', () => {
   })
   test('Should throw and error if AddSurveyRepository throws', async () => {
     const { sut, addSurveyRepositoryStub } = makeSut()
-    jest.spyOn(addSurveyRepositoryStub, 'add').mockReturnValueOnce(new Promise((resolve, reject) => {
-      reject(new Error())
-    }))
+    jest.spyOn(addSurveyRepositoryStub, 'add').mockReturnValueOnce(
+      new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    )
     const httpResponse = sut.add(makeFakeSurvey())
     await expect(httpResponse).rejects.toThrow()
   })
