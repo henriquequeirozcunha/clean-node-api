@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/main/server.js",
-    "build": "rimraf dist && tsc",
+    "build": "rimraf dist && tsc -p tsconfig-build.json",
     "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js ",
     "dev": "sucrase-node src/main/server.ts",
     "up": "npm run build && docker-compose up -d",
@@ -56,11 +56,15 @@
     "express": "^4.17.1",
     "fast-glob": "^3.2.4",
     "jsonwebtoken": "^8.5.1",
+    "module-alias": "^2.2.2",
     "mongodb": "^3.6.3",
     "nodemon": "^2.0.6",
     "validator": "^13.5.1"
   },
   "engines": {
     "node": "12.x"
+  },
+  "_moduleAliases": {
+    "@": "dist"
   }
 }
