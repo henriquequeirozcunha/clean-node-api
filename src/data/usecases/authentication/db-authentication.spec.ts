@@ -6,7 +6,7 @@ import { UpdateAccessTokenRepository } from '@/data/protocols/db/account/update-
 import { AuthenticationModel } from '@/domain/usecases/authentication'
 import { AccountModel } from '@/domain/models/account'
 
-interface SutTypes {
+type SutTypes = {
   sut: DbAuthentication
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
   hashComparerStub: HashComparer

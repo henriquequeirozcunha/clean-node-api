@@ -3,7 +3,7 @@ import { DbAddSurvey } from './db-add-survey'
 import { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository'
 import { AddSurvey, AddSurveyModel } from '@/domain/usecases/add-survey'
 
-interface SutTypes {
+type SutTypes = {
   sut: DbAddSurvey
   addSurveyRepositoryStub: AddSurveyRepository
 }
