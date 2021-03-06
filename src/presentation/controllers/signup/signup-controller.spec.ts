@@ -18,7 +18,7 @@ import {
 } from '@/presentation/helpers/http/http-helper'
 import { ServerError, EmailInUseError } from '@/presentation/erros'
 
-interface SutTypes {
+type SutTypes = {
   sut: SignUpController
   addAccountStub: AddAccount
   validationStub: Validation
