@@ -1,5 +1,5 @@
 import { HttpRequest } from '@/presentation/protocols'
-import { AccessDeniedError } from '@/presentation/erros'
+import { InvalidParamError } from '@/presentation/erros'
 import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
 import { SaveSurveyResultController } from './save-survey-result.controller'
 import { SaveSurveySurveyResult, SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result'
@@ -73,7 +73,7 @@ describe('SaveSurveyResult Controller', () => {
     const { sut, loadSurveyByIdStub } = makeSut()
     jest.spyOn(loadSurveyByIdStub, 'loadById').mockReturnValueOnce(new Promise(resolve => resolve(null)))
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('surveyId')))
   })
   test('Should return 500 if LoadSurveyById throws', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
