@@ -16,6 +16,7 @@ export class SaveSurveyResultController implements Controller {
       const { accountId } = httpRequest
       const survey = await this.loadSurveyById.loadById(surveyId)
       if (survey) {
+        console.log('surveyResp', survey)
         if (!survey.answers.some(surveyAnswer => surveyAnswer.answer === answer)) {
           return forbidden(new InvalidParamError('answer'))
         }
