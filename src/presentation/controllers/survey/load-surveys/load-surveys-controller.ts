@@ -1,7 +1,6 @@
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 import { LoadSurveys } from '@/domain/usecases/load-survey'
 import { noContent, serverError, ok } from '@/presentation/helpers/http/http-helper'
-
 export class LoadSurveysController implements Controller {
   constructor (private readonly loadSurveys: LoadSurveys) {}
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
