@@ -7,6 +7,7 @@ interface IMongoHelper {
   disconnect: () => Promise<void>
   getColletion: (name: string) => Promise<Collection>
   map: (collection: any) => any
+  mapCollection: (collection: any[]) => any[]
 }
 
 export const MongoHelper: IMongoHelper = {
@@ -31,5 +32,8 @@ export const MongoHelper: IMongoHelper = {
   map (collection: any): any {
     const { _id, ...collectionWithoutId } = collection
     return Object.assign({}, collectionWithoutId, { id: _id })
+  },
+  mapCollection (collection: any[]): any[] {
+    return collection.map(item => MongoHelper.map(item))
   }
 }
