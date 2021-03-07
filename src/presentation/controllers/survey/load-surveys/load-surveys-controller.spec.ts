@@ -1,6 +1,6 @@
 import MockDate from 'mockdate'
 import { SurveyModel } from '@/domain/models/survey'
-import { LoadSurveys } from '@/domain/usecases/load-survey'
+import { LoadSurveys } from '@/domain/usecases/survey/load-survey'
 import { LoadSurveysController } from './load-surveys-controller'
 import {
   noContent,

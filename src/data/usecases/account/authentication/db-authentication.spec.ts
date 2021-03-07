@@ -3,7 +3,7 @@ import { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-a
 import { HashComparer } from '@/data/protocols/criptography/hash-comparer'
 import { Encrypter } from '@/data/protocols/criptography/encrypter'
 import { UpdateAccessTokenRepository } from '@/data/protocols/db/account/update-access-token-repository'
-import { AuthenticationModel } from '@/domain/usecases/authentication'
+import { AuthenticationModel } from '@/domain/usecases/account/authentication'
 import { AccountModel } from '@/domain/models/account'
 
 type SutTypes = {

@@ -1,6 +1,6 @@
 import { HttpRequest, HttpResponse } from '@/presentation/protocols'
 import { AccountModel } from '@/domain/models/account'
-import { LoadAccountByToken } from '@/domain/usecases/load-account-by-token'
+import { LoadAccountByToken } from '@/domain/usecases/account/load-account-by-token'
 import { AuthMiddleware } from './auth-middleware'
 import {
   forbidden,

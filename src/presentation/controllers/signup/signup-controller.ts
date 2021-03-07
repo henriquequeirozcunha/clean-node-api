@@ -1,6 +1,6 @@
 import { Controller, Validation, HttpRequest, HttpResponse } from '@/presentation/protocols'
-import { AddAccount } from '@/domain/usecases/add-account'
-import { Authentication } from '@/domain/usecases/authentication'
+import { AddAccount } from '@/domain/usecases/account/add-account'
+import { Authentication } from '@/domain/usecases/account/authentication'
 import { badRequest, forbidden, serverError, ok } from '@/presentation/helpers/http/http-helper'
 import { EmailInUseError } from '@/presentation/erros'
 

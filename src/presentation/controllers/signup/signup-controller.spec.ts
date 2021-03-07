@@ -1,5 +1,5 @@
 import { SignUpController } from './signup-controller'
-import { AddAccount, AddAccountModel } from '@/domain/usecases/add-account'
+import { AddAccount, AddAccountModel } from '@/domain/usecases/account/add-account'
 import {
   Validation,
   HttpRequest,
@@ -8,7 +8,7 @@ import {
 import {
   Authentication,
   AuthenticationModel
-} from '@/domain/usecases/authentication'
+} from '@/domain/usecases/account/authentication'
 import { AccountModel } from '@/domain/models/account'
 import {
   badRequest,

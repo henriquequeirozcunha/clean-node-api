@@ -1,5 +1,5 @@
 import { Middleware } from '@/presentation/protocols/middleware'
-import { LoadAccountByToken } from '@/domain/usecases/load-account-by-token'
+import { LoadAccountByToken } from '@/domain/usecases/account/load-account-by-token'
 import { HttpRequest, HttpResponse } from '@/presentation/protocols'
 import { forbidden, serverError, ok } from '@/presentation/helpers/http/http-helper'
 import { AccessDeniedError } from '@/presentation/erros'

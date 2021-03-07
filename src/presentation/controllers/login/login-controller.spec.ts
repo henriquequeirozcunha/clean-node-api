@@ -6,7 +6,7 @@ import {
 import {
   Authentication,
   AuthenticationModel
-} from '@/domain/usecases/authentication'
+} from '@/domain/usecases/account/authentication'
 import { LoginController } from './login-controller'
 import {
   badRequest,
