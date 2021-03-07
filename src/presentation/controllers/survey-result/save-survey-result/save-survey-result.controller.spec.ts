@@ -3,7 +3,7 @@ import { HttpRequest } from '@/presentation/protocols'
 import { InvalidParamError } from '@/presentation/erros'
 import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
 import { SaveSurveyResultController } from './save-survey-result.controller'
-import { SaveSurveySurveyResult, SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result'
+import { SaveSurveyResult, SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result'
 import { SurveyResultModel } from '@/domain/models/survey-result'
 import { LoadSurveyById } from '@/domain/usecases/survey/load-survey-by-id'
 import { SurveyModel } from '@/domain/models/survey'
@@ -40,8 +40,8 @@ const makeFakeSurveyResult = (): SurveyResultModel => ({
   answer: 'valid_answer'
 })
 
-const makeSaveSurveyResult = (): SaveSurveySurveyResult => {
-  class SaveSurveyResultStub implements SaveSurveySurveyResult {
+const makeSaveSurveyResult = (): SaveSurveyResult => {
+  class SaveSurveyResultStub implements SaveSurveyResult {
     async save (data: SaveSurveyResultModel): Promise<SurveyResultModel> {
       return await new Promise(resolve => resolve(makeFakeSurveyResult()))
     }
@@ -60,7 +60,7 @@ const makeLoadSurveyById = (): LoadSurveyById => {
 
 type SutTypes = {
   sut: SaveSurveyResultController
-  saveSurveyResultStub: SaveSurveySurveyResult
+  saveSurveyResultStub: SaveSurveyResult
   loadSurveyByIdStub: LoadSurveyById
 }
 
@@ -112,7 +112,7 @@ describe('SaveSurveyResult Controller', () => {
     })
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('answer')))
   })
-  test('Should call SaveSurveySurveyResult with the correct values', async () => {
+  test('Should call SaveSurveyResult with the correct values', async () => {
     const { sut, saveSurveyResultStub } = makeSut()
     const saveSpy = jest.spyOn(saveSurveyResultStub, 'save')
     await sut.handle(makeFakeRequest())
