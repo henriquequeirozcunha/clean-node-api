@@ -22,13 +22,13 @@ export class SaveSurveyResultController implements Controller {
       } else {
         return forbidden(new InvalidParamError('surveyId'))
       }
-      await this.SaveSurveyResult.save({
+      const surveyResult = await this.SaveSurveyResult.save({
         accountId,
         surveyId,
         date: new Date(),
         answer
       })
-      return ok({})
+      return ok(surveyResult)
     } catch (error) {
       return serverError(error)
     }
