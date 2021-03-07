@@ -74,4 +74,27 @@ describe('Survey MongoDB Repository', () => {
       expect(surveys.length).toBe(0)
     })
   })
+  describe('loadLoadById()', () => {
+    test('Should return a Survey on success', async () => {
+      const res = await surveyCollection.insertOne({
+        question: 'any_question',
+        answers: [{
+          answer: 'any_answer',
+          image: 'any_image'
+        },
+        {
+          answer: 'other_answer'
+        }],
+        date: new Date()
+      })
+      const sut = makeSut()
+      const surveys = await sut.loadById(res.ops[0]._id)
+      expect(surveys).toBeTruthy()
+    })
+    test('Should return an empty list if there is no surveys', async () => {
+      const sut = makeSut()
+      const surveys = await sut.loadAll()
+      expect(surveys.length).toBe(0)
+    })
+  })
 })
