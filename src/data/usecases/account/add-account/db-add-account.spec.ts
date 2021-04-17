@@ -3,7 +3,7 @@ import { Hasher } from '@/data/protocols/criptography/hasher'
 import { AddAccountRepository } from '@/data/protocols/db/account/add-account-repository'
 import { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository'
 import { AccountModel } from '@/domain/models/account'
-import { AddAccountModel } from '@/domain/usecases/account/add-account'
+import { AddAccountParams } from '@/domain/usecases/account/add-account'
 
 type SutTypes = {
   sut: DbAddAccount
@@ -38,7 +38,7 @@ const makeFakeAccount = (): AccountModel => ({
   password: 'hashed_password'
 })
 
-const makeAccountData = (): AddAccountModel => ({
+const makeAccountData = (): AddAccountParams => ({
   name: 'valid_name',
   email: 'valid_email@email.com',
   password: 'valid_password'
@@ -46,7 +46,7 @@ const makeAccountData = (): AddAccountModel => ({
 
 const makeAddAccountRepository = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
-    async add (account: AddAccountModel): Promise<AccountModel> {
+    async add (account: AddAccountParams): Promise<AccountModel> {
       return await new Promise((resolve) => resolve(makeFakeAccount()))
     }
   }

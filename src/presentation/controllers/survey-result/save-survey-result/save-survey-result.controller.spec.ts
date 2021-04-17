@@ -3,7 +3,7 @@ import { HttpRequest } from '@/presentation/protocols'
 import { InvalidParamError } from '@/presentation/erros'
 import { forbidden, serverError, ok } from '@/presentation/helpers/http/http-helper'
 import { SaveSurveyResultController } from './save-survey-result.controller'
-import { SaveSurveyResult, SaveSurveyResultModel } from '@/domain/usecases/survey-result/save-survey-result'
+import { SaveSurveyResult, SaveSurveyResultParams } from '@/domain/usecases/survey-result/save-survey-result'
 import { SurveyResultModel } from '@/domain/models/survey-result'
 import { LoadSurveyById } from '@/domain/usecases/survey/load-survey-by-id'
 import { SurveyModel } from '@/domain/models/survey'
@@ -42,7 +42,7 @@ const makeFakeSurveyResult = (): SurveyResultModel => ({
 
 const makeSaveSurveyResult = (): SaveSurveyResult => {
   class SaveSurveyResultStub implements SaveSurveyResult {
-    async save (data: SaveSurveyResultModel): Promise<SurveyResultModel> {
+    async save (data: SaveSurveyResultParams): Promise<SurveyResultModel> {
       return await new Promise(resolve => resolve(makeFakeSurveyResult()))
     }
   }

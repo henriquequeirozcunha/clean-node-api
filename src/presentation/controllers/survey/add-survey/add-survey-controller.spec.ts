@@ -1,6 +1,6 @@
 import MockDate from 'mockdate'
 import { HttpRequest, Validation } from '@/presentation/protocols'
-import { AddSurveyModel, AddSurvey } from '@/domain/usecases/survey/add-survey'
+import { AddSurveyParams, AddSurvey } from '@/domain/usecases/survey/add-survey'
 import { AddSurveyController } from './add-survey-controller'
 import {
   badRequest,
@@ -12,7 +12,7 @@ const makeFakeRequest = (): HttpRequest => ({
   body: makeFakeSurvey()
 })
 
-const makeFakeSurvey = (): AddSurveyModel => ({
+const makeFakeSurvey = (): AddSurveyParams => ({
   question: 'any_question',
   answers: [
     {
@@ -25,7 +25,7 @@ const makeFakeSurvey = (): AddSurveyModel => ({
 
 const makeAddSurvey = (): AddSurvey => {
   class AddSurveyStub implements AddSurvey {
-    async add (data: AddSurveyModel): Promise<void> {
+    async add (data: AddSurveyParams): Promise<void> {
       return await new Promise((resolve) => resolve())
     }
   }
