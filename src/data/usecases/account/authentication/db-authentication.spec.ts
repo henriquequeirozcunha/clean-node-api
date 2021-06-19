@@ -1,3 +1,4 @@
+import { throwError } from './../../../../domain/test/test-helpers'
 import { DbAuthentication } from './db-authentication'
 import { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository'
 import { HashComparer } from '@/data/protocols/criptography/hash-comparer'
@@ -90,9 +91,7 @@ describe('DbAuthentication usecase', () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
     jest
       .spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+      .mockImplementationOnce(throwError)
     const fakeAuthentication = makeFakeAuthenticationModel()
     const promise = sut.auth(fakeAuthentication)
     await expect(promise).rejects.toThrow()
@@ -117,9 +116,7 @@ describe('DbAuthentication usecase', () => {
     const { sut, hashComparerStub } = makeSut()
     jest
       .spyOn(hashComparerStub, 'compare')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+      .mockImplementationOnce(throwError)
     const fakeAuthentication = makeFakeAuthenticationModel()
     const promise = sut.auth(fakeAuthentication)
     await expect(promise).rejects.toThrow()
@@ -144,9 +141,7 @@ describe('DbAuthentication usecase', () => {
     const { sut, encrypterStub } = makeSut()
     jest
       .spyOn(encrypterStub, 'encrypt')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+      .mockImplementationOnce(throwError)
     const fakeAuthentication = makeFakeAuthenticationModel()
     const promise = sut.auth(fakeAuthentication)
     await expect(promise).rejects.toThrow()

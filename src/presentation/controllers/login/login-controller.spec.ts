@@ -1,3 +1,4 @@
+import { throwError } from './../../../domain/test/test-helpers'
 import {
   Validation,
   HttpRequest,
@@ -92,9 +93,7 @@ describe('Login Controller', () => {
     const { sut, authenticationStub } = makeSut()
     jest
       .spyOn(authenticationStub, 'auth')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+      .mockImplementationOnce(throwError)
     const httpResponse: HttpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })

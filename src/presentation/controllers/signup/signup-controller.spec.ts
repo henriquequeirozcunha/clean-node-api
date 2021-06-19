@@ -1,3 +1,4 @@
+import { throwError } from './../../../domain/test/test-helpers'
 import { SignUpController } from './signup-controller'
 import { AddAccount, AddAccountParams } from '@/domain/usecases/account/add-account'
 import {
@@ -148,9 +149,7 @@ describe('SignUp Controller', () => {
     const { sut, authenticationStub } = makeSut()
     jest
       .spyOn(authenticationStub, 'auth')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+      .mockImplementationOnce(throwError)
     const httpResponse: HttpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })

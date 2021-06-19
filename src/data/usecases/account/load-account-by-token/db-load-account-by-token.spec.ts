@@ -1,3 +1,4 @@
+import { throwError } from './../../../../domain/test/test-helpers'
 import { Decrypter } from '@/data/protocols/criptography/decrypter'
 import { AccountModel } from '@/domain/models/account'
 import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
@@ -93,9 +94,7 @@ describe('DbLoadAccountByToken Usecase', () => {
     const { sut, decrypterStub } = makeSut()
     jest
       .spyOn(decrypterStub, 'decrypt')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+      .mockImplementationOnce(throwError)
     const promise = sut.load('any_token', 'any_role')
     await expect(promise).rejects.toThrow()
   })
@@ -103,9 +102,7 @@ describe('DbLoadAccountByToken Usecase', () => {
     const { sut, loadAccountByTokenRepositoryStub } = makeSut()
     jest
       .spyOn(loadAccountByTokenRepositoryStub, 'loadByToken')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+      .mockImplementationOnce(throwError)
     const promise = sut.load('any_token', 'any_role')
     await expect(promise).rejects.toThrow()
   })

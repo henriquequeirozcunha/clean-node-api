@@ -8,6 +8,7 @@ import {
   ok
 } from '@/presentation/helpers/http/http-helper'
 import { AccessDeniedError } from '@/presentation/erros'
+import { throwError } from '@/domain/test'
 
 const makeFakeRequest = (): HttpRequest => ({
   headers: {
@@ -79,9 +80,7 @@ describe('Auth Middleware', () => {
     const httpRequest = makeFakeRequest()
     jest
       .spyOn(loadAccountByTokenStub, 'load')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+      .mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
   })

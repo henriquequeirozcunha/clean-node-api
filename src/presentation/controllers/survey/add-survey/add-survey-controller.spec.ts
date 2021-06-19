@@ -1,3 +1,4 @@
+import { throwError } from './../../../../domain/test/test-helpers'
 import MockDate from 'mockdate'
 import { HttpRequest, Validation } from '@/presentation/protocols'
 import { AddSurveyParams, AddSurvey } from '@/domain/usecases/survey/add-survey'
@@ -91,9 +92,7 @@ describe('AddSurveyController', () => {
     const httpRequest = makeFakeRequest()
     jest
       .spyOn(addSurveyStub, 'add')
-      .mockReturnValueOnce(
-        new Promise((resolve, reject) => reject(new Error()))
-      )
+      .mockImplementationOnce(throwError)
     const httpReponse = await sut.handle(httpRequest)
     expect(httpReponse).toEqual(serverError(new Error()))
   })
