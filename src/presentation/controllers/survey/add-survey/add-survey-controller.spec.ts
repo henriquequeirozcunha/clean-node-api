@@ -1,4 +1,3 @@
-import { throwError } from './../../../../domain/test/test-helpers'
 import MockDate from 'mockdate'
 import { HttpRequest, Validation } from '@/presentation/protocols'
 import { AddSurveyParams, AddSurvey } from '@/domain/usecases/survey/add-survey'
@@ -8,6 +7,7 @@ import {
   serverError,
   noContent
 } from '@/presentation/helpers/http/http-helper'
+import { throwError } from '@/domain/test'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: makeFakeSurvey()

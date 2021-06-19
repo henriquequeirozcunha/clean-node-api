@@ -8,7 +8,7 @@ import {
   ok
 } from '@/presentation/helpers/http/http-helper'
 
-const makeFakeSurveys = (): SurveyModel[] => {
+const mockSurveyModel = (): SurveyModel[] => {
   return [
     {
       id: 'any_id',
@@ -37,7 +37,7 @@ const makeFakeSurveys = (): SurveyModel[] => {
 const makeLoadSurveysStub = (): LoadSurveys => {
   class LoadSurveysSutb implements LoadSurveys {
     async load (): Promise<SurveyModel[]> {
-      return await new Promise((resolve) => resolve(makeFakeSurveys()))
+      return await new Promise((resolve) => resolve(mockSurveyModel()))
     }
   }
   return new LoadSurveysSutb()
@@ -70,7 +70,7 @@ describe('LoadSurveys Controller', () => {
   test('Should return 200 on success', async () => {
     const { sut } = makeSut()
     const httpRespone = await sut.handle({})
-    expect(httpRespone).toEqual(ok(makeFakeSurveys()))
+    expect(httpRespone).toEqual(ok(mockSurveyModel()))
   })
   test('Should return 204 if LoadSurveys returns empty', async () => {
     const { sut, loadSurveysStub } = makeSut()

@@ -32,7 +32,7 @@ const makeFakeSurvey = (): SurveyModel => {
   }
 }
 
-const makeFakeSurveyResult = (): SurveyResultModel => ({
+const mockSurveyResultModel = (): SurveyResultModel => ({
   id: 'valid_id',
   surveyId: 'valid_survey_id',
   accountId: 'valid_account_id',
@@ -43,7 +43,7 @@ const makeFakeSurveyResult = (): SurveyResultModel => ({
 const makeSaveSurveyResult = (): SaveSurveyResult => {
   class SaveSurveyResultStub implements SaveSurveyResult {
     async save (data: SaveSurveyResultParams): Promise<SurveyResultModel> {
-      return await new Promise(resolve => resolve(makeFakeSurveyResult()))
+      return await new Promise(resolve => resolve(mockSurveyResultModel()))
     }
   }
   return new SaveSurveyResultStub()
@@ -132,6 +132,6 @@ describe('SaveSurveyResult Controller', () => {
   test('Should return 200 on success', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual(ok(makeFakeSurveyResult()))
+    expect(httpResponse).toEqual(ok(mockSurveyResultModel()))
   })
 })

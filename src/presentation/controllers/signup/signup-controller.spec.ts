@@ -1,4 +1,3 @@
-import { throwError } from './../../../domain/test/test-helpers'
 import { SignUpController } from './signup-controller'
 import { AddAccount, AddAccountParams } from '@/domain/usecases/account/add-account'
 import {
@@ -8,7 +7,7 @@ import {
 } from '@/presentation/protocols'
 import {
   Authentication,
-  AuthenticationModel
+  AuthenticationParams
 } from '@/domain/usecases/account/authentication'
 import { AccountModel } from '@/domain/models/account'
 import {
@@ -18,6 +17,7 @@ import {
   ok
 } from '@/presentation/helpers/http/http-helper'
 import { ServerError, EmailInUseError } from '@/presentation/erros'
+import { throwError, mockAccountModel } from '@/domain/test'
 
 type SutTypes = {
   sut: SignUpController
@@ -29,7 +29,7 @@ type SutTypes = {
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     async add (account: AddAccountParams): Promise<AccountModel> {
-      return await new Promise((resolve) => resolve(makeFakeAccount()))
+      return await new Promise((resolve) => resolve(mockAccountModel()))
     }
   }
   return new AddAccountStub()
@@ -44,19 +44,12 @@ const makeValidation = (): Validation => {
 }
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationModel): Promise<string> {
+    async auth (authentication: AuthenticationParams): Promise<string> {
       return await new Promise((resolve) => resolve('any_token'))
     }
   }
   return new AuthenticationStub()
 }
-
-const makeFakeAccount = (): AccountModel => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email@email.com',
-  password: 'valid_password'
-})
 
 const makeSut = (): SutTypes => {
   const validationStub = makeValidation()

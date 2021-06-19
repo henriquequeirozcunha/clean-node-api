@@ -1,4 +1,3 @@
-import { throwError } from './../../../domain/test/test-helpers'
 import {
   Validation,
   HttpRequest,
@@ -6,7 +5,7 @@ import {
 } from '@/presentation/protocols'
 import {
   Authentication,
-  AuthenticationModel
+  AuthenticationParams
 } from '@/domain/usecases/account/authentication'
 import { LoginController } from './login-controller'
 import {
@@ -15,6 +14,7 @@ import {
   serverError,
   ok
 } from '@/presentation/helpers/http/http-helper'
+import { throwError } from '@/domain/test'
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -26,7 +26,7 @@ const makeValidation = (): Validation => {
 }
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationModel): Promise<string> {
+    async auth (authentication: AuthenticationParams): Promise<string> {
       return await new Promise((resolve) => resolve('any_token'))
     }
   }
