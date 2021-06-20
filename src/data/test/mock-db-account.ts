@@ -9,7 +9,7 @@ import { AddAccountParams } from '@/domain/usecases/account/add-account'
 export const mockAddAccountRepository = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
     async add (account: AddAccountParams): Promise<AccountModel> {
-      return await new Promise((resolve) => resolve(mockAccountModel()))
+      return await Promise.resolve(mockAccountModel())
     }
   }
   return new AddAccountRepositoryStub()
@@ -19,7 +19,7 @@ export const mockLoadAccountByEmailRepository = (): LoadAccountByEmailRepository
   class LoadAccountByEmailRepositoryStub
   implements LoadAccountByEmailRepository {
     async loadByEmail (email: string): Promise<AccountModel> {
-      return await new Promise((resolve) => resolve(mockAccountModel()))
+      return await Promise.resolve(mockAccountModel())
     }
   }
   return new LoadAccountByEmailRepositoryStub()
@@ -32,7 +32,7 @@ export const mockLoadAccountByTokenRepository = (): LoadAccountByTokenRepository
       accessToken: string,
       role?: string
     ): Promise<AccountModel> {
-      return await new Promise((resolve) => resolve(mockAccountModel()))
+      return await Promise.resolve(mockAccountModel())
     }
   }
   return new LoadAccountByTokenRepositoryStub()

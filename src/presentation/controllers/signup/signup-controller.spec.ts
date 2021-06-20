@@ -29,7 +29,7 @@ type SutTypes = {
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
     async auth (authentication: AuthenticationParams): Promise<string> {
-      return await new Promise((resolve) => resolve('any_token'))
+      return await Promise.resolve('any_token')
     }
   }
   return new AuthenticationStub()
@@ -97,7 +97,7 @@ describe('SignUp Controller', () => {
     const { sut, addAccountStub } = makeSut()
     jest
       .spyOn(addAccountStub, 'add')
-      .mockReturnValueOnce(new Promise((resolve) => resolve(null)))
+      .mockReturnValueOnce(Promise.resolve(null))
     const httpRequest = mockRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
