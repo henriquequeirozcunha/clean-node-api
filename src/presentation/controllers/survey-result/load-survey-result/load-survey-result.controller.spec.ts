@@ -1,8 +1,8 @@
-import { throwError } from '@/domain/test'
+import { mockSurveyResultModel, throwError } from '@/domain/test'
 import { LoadSurveyById } from '@/domain/usecases/survey/load-survey-by-id'
 import { LoadSurveyResult } from '@/domain/usecases/survey-result/load-survey-result'
 import { InvalidParamError } from '@/presentation/erros'
-import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
+import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { HttpRequest } from '@/presentation/protocols'
 import { mockLoadSurveyById, mockLoadSurveyResult } from '@/presentation/test'
 import { LoadSurveyResultController } from './load-survey-result.controller'
@@ -63,5 +63,11 @@ describe('LoadSurveyResult Controller', () => {
     await sut.handle(mockRequest())
 
     expect(loadSpy).toHaveBeenCalledWith('any_survey_id')
+  })
+  test('should return 200 with SurveyResult data on success', async () => {
+    const { sut } = makeSut()
+    const surveyResult = await sut.handle(mockRequest())
+
+    expect(surveyResult).toEqual(ok(mockSurveyResultModel()))
   })
 })
