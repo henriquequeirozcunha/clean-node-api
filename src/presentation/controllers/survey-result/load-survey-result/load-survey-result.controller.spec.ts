@@ -4,9 +4,8 @@ import { LoadSurveyResult } from '@/domain/usecases/survey-result/load-survey-re
 import { InvalidParamError } from '@/presentation/erros'
 import { forbidden, serverError } from '@/presentation/helpers/http/http-helper'
 import { HttpRequest } from '@/presentation/protocols'
-import { mockLoadSurveyById } from '@/presentation/test'
+import { mockLoadSurveyById, mockLoadSurveyResult } from '@/presentation/test'
 import { LoadSurveyResultController } from './load-survey-result.controller'
-import { SurveyResultModel } from '@/domain/models/survey-result'
 
 const mockRequest = (): HttpRequest => ({
   params: {
@@ -21,13 +20,7 @@ type SutTypes = {
 }
 
 const makeSut = (): SutTypes => {
-  class LoadSurveyResultStub implements LoadSurveyResult {
-    async load (surveyId: string): Promise<SurveyResultModel> {
-      return await Promise.resolve(null)
-    }
-  }
-
-  const loadSurveyResultStub = new LoadSurveyResultStub()
+  const loadSurveyResultStub = mockLoadSurveyResult()
   const loadSurveyByIdStub = mockLoadSurveyById()
   const sut = new LoadSurveyResultController(loadSurveyByIdStub, loadSurveyResultStub)
 
