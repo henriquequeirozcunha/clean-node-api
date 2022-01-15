@@ -29,7 +29,7 @@ const makeAccessToken = async (): Promise<string> => {
 
 describe('Login Routes', () => {
   beforeAll(async () => {
-    await MongoHelper.connect(process.env.MONGO_URL)
+    await MongoHelper.connect(env.mongoUrl)
   })
   afterAll(async () => {
     await MongoHelper.disconnect()
@@ -69,6 +69,13 @@ describe('Login Routes', () => {
           answer: 'any_answer_1'
         })
         .expect(200)
+    })
+  })
+  describe('GET /surveys/:surveyId/results', () => {
+    test('Should return 403 on load survey result without access token', async () => {
+      await request(app)
+        .get('/api/surveys/any_id/results')
+        .expect(403)
     })
   })
 })
