@@ -28,10 +28,6 @@ export class QueryBuilder {
     return this.addStep('$lookup', data)
   }
 
-  addFields (data: object): QueryBuilder {
-    return this.addStep('$addFields', data)
-  }
-
   project (data: object): QueryBuilder {
     return this.addStep('$project', data)
   }

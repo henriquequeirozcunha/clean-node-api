@@ -161,7 +161,7 @@ API com uma arquitetura bem definida e desacoplada, utilizando TDD (programaçã
 * Find, FindOne e FindOneAndUpdate
 * DeleteMany
 * UpdateOne
-* Aggregation (Match, Group, Unwind, Lookup, AddFields, Project, Sort)
+* Aggregation (Match, Group, Unwind, Lookup, Project, Sort)
 * ObjectId
 * Upsert e ReturnOriginal
 * Push, Divide, Multiply, ArrayElemAt, Cond, Sum
