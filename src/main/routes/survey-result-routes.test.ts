@@ -29,7 +29,7 @@ const makeAccessToken = async (): Promise<string> => {
 
 describe('Login Routes', () => {
   beforeAll(async () => {
-    await MongoHelper.connect(process.env.MONGO_URL)
+    await MongoHelper.connect(env.mongoUrl)
   })
   afterAll(async () => {
     await MongoHelper.disconnect()
@@ -68,6 +68,31 @@ describe('Login Routes', () => {
         .send({
           answer: 'any_answer_1'
         })
+        .expect(200)
+    })
+  })
+  describe('GET /surveys/:surveyId/results', () => {
+    test('Should return 403 on load survey result without access token', async () => {
+      await request(app)
+        .get('/api/surveys/any_id/results')
+        .expect(403)
+    })
+    test('Should return 200 on load survey result with accessToken', async () => {
+      const accessToken = await makeAccessToken()
+      const res = await surveyCollection.insertOne({
+        question: 'any_question',
+        answers: [{
+          answer: 'any_answer_1',
+          image: 'any_image_1'
+        },
+        {
+          answer: 'any_answer_2'
+        }],
+        date: new Date()
+      })
+      await request(app)
+        .get(`/api/surveys/${res.ops[0]._id}/results`)
+        .set('x-access-token', accessToken)
         .expect(200)
     })
   })

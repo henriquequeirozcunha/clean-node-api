@@ -16,7 +16,6 @@ export class SaveSurveyResultController implements Controller {
       const { accountId } = httpRequest
       const survey = await this.loadSurveyById.loadById(surveyId)
       if (survey) {
-        console.log('surveyResp', survey)
         if (!survey.answers.some(surveyAnswer => surveyAnswer.answer === answer)) {
           return forbidden(new InvalidParamError('answer'))
         }
@@ -31,6 +30,7 @@ export class SaveSurveyResultController implements Controller {
       })
       return ok(surveyResult)
     } catch (error) {
+      console.log('erro no servdidor', error)
       return serverError(error)
     }
   }
