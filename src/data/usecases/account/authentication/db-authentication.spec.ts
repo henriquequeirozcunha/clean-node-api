@@ -58,8 +58,8 @@ describe('DbAuthentication usecase', () => {
       .spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
       .mockReturnValueOnce(null)
     const fakeAuthentication = mockAuthentication()
-    const response = await sut.auth(fakeAuthentication)
-    expect(response).toBeNull()
+    const model = await sut.auth(fakeAuthentication)
+    expect(model).toBeNull()
   })
   test('Should call HashComparer with correct values', async () => {
     const { sut, hashComparerStub } = makeSut()
@@ -83,8 +83,8 @@ describe('DbAuthentication usecase', () => {
       .spyOn(hashComparerStub, 'compare')
       .mockReturnValueOnce(Promise.resolve(false))
     const fakeAuthentication = mockAuthentication()
-    const accessToken = await sut.auth(fakeAuthentication)
-    expect(accessToken).toBeNull()
+    const model = await sut.auth(fakeAuthentication)
+    expect(model).toBeNull()
   })
   test('Should call Encrypter with correct values', async () => {
     const { sut, encrypterStub } = makeSut()
@@ -102,10 +102,11 @@ describe('DbAuthentication usecase', () => {
     const promise = sut.auth(fakeAuthentication)
     await expect(promise).rejects.toThrow()
   })
-  test('Should throw an error if Encrypter throws', async () => {
+  test('Should return an authentication model on sucess', async () => {
     const { sut } = makeSut()
-    const accessToken = await sut.auth(mockAuthentication())
-    await expect(accessToken).toBe('any_token')
+    const { accessToken, name } = await sut.auth(mockAuthentication())
+    expect(accessToken).toBe('any_token')
+    expect(name).toBe('any_name')
   })
   test('Should call UpdateAccessTokenRepository with correct values', async () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut()
