@@ -5,10 +5,7 @@ import {
   HttpRequest,
   HttpResponse
 } from '@/presentation/protocols'
-import {
-  Authentication,
-  AuthenticationParams
-} from '@/domain/usecases/account/authentication'
+import { Authentication } from '@/domain/usecases/account/authentication'
 import {
   badRequest,
   serverError,
@@ -17,7 +14,7 @@ import {
 } from '@/presentation/helpers/http/http-helper'
 import { ServerError, EmailInUseError } from '@/presentation/erros'
 import { throwError } from '@/domain/test'
-import { mockValidation, makeAddAccount } from '@/presentation/test'
+import { mockValidation, makeAddAccount, mockAuthentication } from '@/presentation/test'
 
 type SutTypes = {
   sut: SignUpController
@@ -26,19 +23,10 @@ type SutTypes = {
   authenticationStub: Authentication
 }
 
-const makeAuthentication = (): Authentication => {
-  class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationParams): Promise<string> {
-      return await Promise.resolve('any_token')
-    }
-  }
-  return new AuthenticationStub()
-}
-
 const makeSut = (): SutTypes => {
   const validationStub = mockValidation()
   const addAccountStub = makeAddAccount()
-  const authenticationStub = makeAuthentication()
+  const authenticationStub = mockAuthentication()
   const sut = new SignUpController(
     addAccountStub,
     validationStub,
@@ -106,7 +94,10 @@ describe('SignUp Controller', () => {
     const { sut } = makeSut()
     const httpRequest = mockRequest()
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
+    expect(httpResponse).toEqual(ok({
+      accessToken: 'any_token',
+      name: 'any_name'
+    }))
   })
   test('Should call Authentication with correct email', async () => {
     const { sut, authenticationStub } = makeSut()
