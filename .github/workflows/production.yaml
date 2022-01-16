@@ -4,13 +4,34 @@ on:
   push:
     branches:
       - master
-      - feat/github-actions
+      - 'release/**'
   pull_request:
     branches:
       - master
-      - feat/github-actions
+      - 'release/**'
 
 jobs:
+  create-tag-release:
+    runs-on: ubuntu-latest
+    outputs:
+      tag-version: ${{ steps.package-version.outputs.current-version }}
+    steps:
+      - name: Checkout branch master
+        uses: actions/checkout@v2
+
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
+
+      - name: Release
+        id: release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.package-version.outputs.current-version }}
+          name: ${{ steps.package-version.outputs.current-version }}
+          target_commitish: master
+          draft: false
+          prerelease: false
   build:
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +54,14 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build Docker Image
       run: |
-        docker build -t henriquequeirozcunha/clean-node-api:latest .
+        docker build -t ${{ secrets.DOCKER_USER }}/clean-node-api:$IMAGE_TAG .
+        docker build -t ${{ secrets.DOCKER_USER }}/clean-node-api:latest .
+      env:
+        IMAGE_TAG: ${{ needs.create-tag-release.outputs.tag-version }}
     - name: Docker Push
-      run: docker push ${{ secrets.DOCKER_USER }}/clean-node-api
+      run: |
+        docker push ${{ secrets.DOCKER_USER }}/clean-node-api:$IMAGE_TAG
+        docker push ${{ secrets.DOCKER_USER }}/clean-node-api:$latest
+      env:
+        IMAGE_TAG: ${{ needs.create-tag-release.outputs.tag-version }}
 
