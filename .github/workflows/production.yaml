@@ -11,23 +11,6 @@ on:
       - 'release/**'
 
 jobs:
-  create-tag-release:
-    runs-on: ubuntu-latest
-    outputs:
-      tag-version: ${{ steps.package-version.outputs.current-version }}
-    steps:
-      - name: Checkout branch master
-        uses: actions/checkout@v2
-
-      - name: Release
-        id: release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ steps.package-version.outputs.current-version }}
-          release_name: ${{ steps.package-version.outputs.current-version }}
-          target_commitish: master
-          draft: false
-          prerelease: false
   build:
     runs-on: ubuntu-latest
     steps:
