@@ -1,4 +1,4 @@
-import { AddAccount, AddAccountParams } from '@/domain/usecases/account/add-account'
+import { AddAccount } from '@/domain/usecases/account/add-account'
 import { AccountModel } from '@/domain/models/account'
 import { mockAccountModel } from '@/domain/test'
 import { Authentication, AuthenticationParams } from '@/domain/usecases/account/authentication'
@@ -8,8 +8,8 @@ import { mockAuthenticationModel } from '@/domain/test/mock-authentication'
 
 export const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    async add (account: AddAccountParams): Promise<AccountModel> {
-      return await Promise.resolve(mockAccountModel())
+    async add (account: AddAccount.Params): Promise<AddAccount.Result> {
+      return await Promise.resolve(true)
     }
   }
   return new AddAccountStub()
