@@ -1,20 +1,19 @@
 import { SurveyMongoRepository } from './survey-mongo-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { Collection } from 'mongodb'
-import { AccountModel } from '@/domain/models/account'
 
 let surveyCollection: Collection
 let surveyResultCollection: Collection
 let accountCollection: Collection
 
-const mockAccount = async (): Promise<AccountModel> => {
+const mockAccountId = async (): Promise<string> => {
   const res = await accountCollection.insertOne({
     name: 'any_name',
     email: 'any_email',
     password: 'any_password'
   })
 
-  return MongoHelper.map(res.ops[0])
+  return res.ops[0]._id
 }
 
 describe('Survey MongoDB Repository', () => {
@@ -58,7 +57,7 @@ describe('Survey MongoDB Repository', () => {
   })
   describe('loadAll()', () => {
     test('Should loadAll a surveys on success', async () => {
-      const account = await mockAccount()
+      const accountId = await mockAccountId()
       const result = await surveyCollection.insertMany([{
         question: 'any_question',
         answers: [{
@@ -84,12 +83,12 @@ describe('Survey MongoDB Repository', () => {
       const survey = result.ops[0]
       await surveyResultCollection.insertOne({
         surveyId: survey._id,
-        accountId: account.id,
+        accountId: accountId,
         answer: survey.answers[0].answer,
         date: new Date()
       })
       const sut = makeSut()
-      const surveys = await sut.loadAll(account.id)
+      const surveys = await sut.loadAll(accountId)
       expect(surveys.length).toBe(2)
       expect(surveys[0].id).toBeTruthy()
       expect(surveys[0].question).toBe('any_question')
@@ -98,9 +97,9 @@ describe('Survey MongoDB Repository', () => {
       // expect(surveys[1].didAnswer).toBe(false)
     })
     test('Should return an empty list if there is no surveys', async () => {
-      const account = await mockAccount()
+      const accountId = await mockAccountId()
       const sut = makeSut()
-      const surveys = await sut.loadAll(account.id)
+      const surveys = await sut.loadAll(accountId)
       expect(surveys.length).toBe(0)
     })
   })
@@ -123,9 +122,9 @@ describe('Survey MongoDB Repository', () => {
       expect(surveys.id).toBeTruthy()
     })
     test('Should return an empty list if there is no surveys', async () => {
-      const account = await mockAccount()
+      const accountId = await mockAccountId()
       const sut = makeSut()
-      const surveys = await sut.loadAll(account.id)
+      const surveys = await sut.loadAll(accountId)
       expect(surveys.length).toBe(0)
     })
   })

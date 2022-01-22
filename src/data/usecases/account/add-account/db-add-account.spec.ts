@@ -2,7 +2,7 @@ import { DbAddAccount } from './db-add-account'
 import { Hasher } from '@/data/protocols/criptography/hasher'
 import { AddAccountRepository } from '@/data/protocols/db/account/add-account-repository'
 import { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository'
-import { mockAccountModel, mockAddAccountParams, throwError } from '@/domain/test'
+import { mockAddAccountParams, throwError } from '@/domain/test'
 import { mockHasher } from '@/data/test/mock-criptography'
 import { mockAddAccountRepository, mockLoadAccountByEmailRepository } from '@/data/test'
 
@@ -70,6 +70,12 @@ describe('DbAddAccount UseCase', () => {
     const isValid = await sut.add(mockAddAccountParams())
     expect(isValid).toBe(true)
   })
+  test('Should return false if AddAccountRepository returns false', async () => {
+    const { sut, addAccountRepositoryStub } = makeSut()
+    jest.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(Promise.resolve(false))
+    const isValid = await sut.add(mockAddAccountParams())
+    expect(isValid).toBe(false)
+  })
   test('Should call LoadAccountByEmailRepository with correct email', async () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
     const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
@@ -90,7 +96,11 @@ describe('DbAddAccount UseCase', () => {
     const { sut, loadAccountByEmailRepositoryStub } = makeSut()
     jest
       .spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
-      .mockReturnValueOnce(Promise.resolve(mockAccountModel()))
+      .mockReturnValueOnce(Promise.resolve({
+        id: 'any_id',
+        name: 'any_name',
+        password: 'any_password'
+      }))
     const isValid = await sut.add(mockAddAccountParams())
     expect(isValid).toBe(false)
   })

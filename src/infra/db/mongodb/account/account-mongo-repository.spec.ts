@@ -24,10 +24,6 @@ describe('Account MongoDB Repository', () => {
       const sut = makeSut()
       const account = await sut.add(mockAddAccountParams())
       expect(account).toBeTruthy()
-      expect(account.id).toBeTruthy()
-      expect(account.name).toEqual('any_name')
-      expect(account.email).toEqual('any_email@email.com')
-      expect(account.password).toEqual('any_password')
     })
   })
   describe('loadByEmail()', () => {
@@ -38,7 +34,6 @@ describe('Account MongoDB Repository', () => {
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
       expect(account.name).toEqual('any_name')
-      expect(account.email).toEqual('any_email@email.com')
       expect(account.password).toEqual('any_password')
     })
     test('Should return false if loadByEmail fails', async () => {

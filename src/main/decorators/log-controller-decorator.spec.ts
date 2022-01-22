@@ -2,7 +2,6 @@ import { LogControllerDecorator } from './log-controller-decorator'
 import { Controller, HttpResponse } from '@/presentation/protocols'
 import { LogErrorRepository } from '@/data/protocols/db/log/log-error-repository'
 import { serverError, ok } from '@/presentation/helpers/http/http-helper'
-import { mockAccountModel } from '@/domain/test'
 import { mockLogErrorRepository } from '@/data/test'
 
 type SutTypes = {
@@ -42,7 +41,7 @@ const makeFakeServerError = (): HttpResponse => {
 const makeController = (): Controller => {
   class ControllerStub implements Controller {
     async handle (request: any): Promise<HttpResponse> {
-      return await Promise.resolve(ok(mockAccountModel()))
+      return await Promise.resolve(ok('any_content'))
     }
   }
   return new ControllerStub()
@@ -60,7 +59,7 @@ describe('LogController Decorator', () => {
   test('Should return the same result of the Controller', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(ok(mockAccountModel()))
+    expect(httpResponse).toEqual(ok('any_content'))
   })
   test('Should call LogErrorRepository with correct error if Controller returns a server error', async () => {
     const { sut, controllerStub, logErrorRepositoryStub } = makeSut()
