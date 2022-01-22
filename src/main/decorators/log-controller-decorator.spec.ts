@@ -1,9 +1,5 @@
 import { LogControllerDecorator } from './log-controller-decorator'
-import {
-  Controller,
-  HttpRequest,
-  HttpResponse
-} from '@/presentation/protocols'
+import { Controller, HttpResponse } from '@/presentation/protocols'
 import { LogErrorRepository } from '@/data/protocols/db/log/log-error-repository'
 import { serverError, ok } from '@/presentation/helpers/http/http-helper'
 import { mockAccountModel } from '@/domain/test'
@@ -28,7 +24,7 @@ const makeSut = (): SutTypes => {
     logErrorRepositoryStub
   }
 }
-const mockRequest = (): HttpRequest => ({
+const mockRequest = (): any => ({
   body: {
     name: 'any_name',
     email: 'any_email@email.com',
@@ -45,7 +41,7 @@ const makeFakeServerError = (): HttpResponse => {
 
 const makeController = (): Controller => {
   class ControllerStub implements Controller {
-    async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+    async handle (request: any): Promise<HttpResponse> {
       return await Promise.resolve(ok(mockAccountModel()))
     }
   }
@@ -56,9 +52,10 @@ describe('LogController Decorator', () => {
   test('Should call Controller Handle', async () => {
     const { sut, controllerStub } = makeSut()
     const handleSpy = jest.spyOn(controllerStub, 'handle')
+    const request = mockRequest()
 
-    await sut.handle(mockRequest())
-    expect(handleSpy).toHaveBeenCalledWith(mockRequest())
+    await sut.handle(request)
+    expect(handleSpy).toHaveBeenCalledWith(request)
   })
   test('Should return the same result of the Controller', async () => {
     const { sut } = makeSut()

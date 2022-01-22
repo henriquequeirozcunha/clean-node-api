@@ -3,16 +3,13 @@ import { LoadSurveyById } from '@/domain/usecases/survey/load-survey-by-id'
 import { LoadSurveyResult } from '@/domain/usecases/survey-result/load-survey-result'
 import { InvalidParamError } from '@/presentation/erros'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { HttpRequest } from '@/presentation/protocols'
 import { mockLoadSurveyById, mockLoadSurveyResult } from '@/presentation/test'
 import { LoadSurveyResultController } from './load-survey-result.controller'
 import faker from 'faker'
 
-const mockRequest = (): HttpRequest => ({
+const mockRequest = (): LoadSurveyResultController.Request => ({
   accountId: faker.random.uuid(),
-  params: {
-    surveyId: faker.random.uuid()
-  }
+  surveyId: faker.random.uuid()
 })
 
 type SutTypes = {
@@ -38,11 +35,11 @@ describe('LoadSurveyResult Controller', () => {
     const { sut, loadSurveyByIdStub } = makeSut()
     const loadByIdSpy = jest.spyOn(loadSurveyByIdStub, 'loadById')
 
-    const httpRequest = mockRequest()
+    const request = mockRequest()
 
-    await sut.handle(httpRequest)
+    await sut.handle(request)
 
-    expect(loadByIdSpy).toHaveBeenCalledWith(httpRequest.params.surveyId)
+    expect(loadByIdSpy).toHaveBeenCalledWith(request.surveyId)
   })
   test('should return 403 if LoadSurveyById returns null', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
@@ -63,11 +60,11 @@ describe('LoadSurveyResult Controller', () => {
   test('should call LoadSurveyResult with correct values', async () => {
     const { sut, loadSurveyResultStub } = makeSut()
     const loadSpy = jest.spyOn(loadSurveyResultStub, 'load')
-    const httpRequest = mockRequest()
+    const request = mockRequest()
 
-    await sut.handle(httpRequest)
+    await sut.handle(request)
 
-    expect(loadSpy).toHaveBeenCalledWith(httpRequest.params.surveyId, httpRequest.accountId)
+    expect(loadSpy).toHaveBeenCalledWith(request.surveyId, request.accountId)
   })
   test('should return 200 with SurveyResult data on success', async () => {
     const { sut } = makeSut()

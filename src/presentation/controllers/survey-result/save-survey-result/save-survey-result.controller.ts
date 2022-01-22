@@ -1,6 +1,6 @@
 import { InvalidParamError } from '@/presentation/erros'
 import { serverError, ok, forbidden } from '@/presentation/helpers/http/http-helper'
-import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
+import { Controller, HttpResponse } from '@/presentation/protocols'
 import { SaveSurveyResult } from '@/domain/usecases/survey-result/save-survey-result'
 import { LoadSurveyById } from '@/domain/usecases/survey/load-survey-by-id'
 
@@ -9,11 +9,9 @@ export class SaveSurveyResultController implements Controller {
     private readonly loadSurveyById: LoadSurveyById,
     private readonly SaveSurveyResult: SaveSurveyResult) {}
 
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle (request: SaveSurveyResultController.Request): Promise<HttpResponse> {
     try {
-      const { surveyId } = httpRequest.params
-      const { answer } = httpRequest.body
-      const { accountId } = httpRequest
+      const { surveyId, answer, accountId } = request
       const survey = await this.loadSurveyById.loadById(surveyId)
       if (survey) {
         if (!survey.answers.some(surveyAnswer => surveyAnswer.answer === answer)) {
@@ -33,5 +31,12 @@ export class SaveSurveyResultController implements Controller {
       console.log('erro no servdidor', error)
       return serverError(error)
     }
+  }
+}
+export namespace SaveSurveyResultController {
+  export type Request = {
+    surveyId: string
+    answer: string
+    accountId: string
   }
 }
