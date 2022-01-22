@@ -50,7 +50,14 @@ export const surveyPath = {
     },
     responses: {
       204: {
-        description: 'Sucesso, mas sem dados para exibir'
+        description: 'Sucesso',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/schemas/surveys'
+            }
+          }
+        }
       },
       403: {
         $ref: '#/components/forbidden'
