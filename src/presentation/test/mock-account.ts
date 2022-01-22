@@ -1,6 +1,4 @@
 import { AddAccount } from '@/domain/usecases/account/add-account'
-import { AccountModel } from '@/domain/models/account'
-import { mockAccountModel } from '@/domain/test'
 import { Authentication } from '@/domain/usecases/account/authentication'
 import { LoadAccountByToken } from '@/domain/usecases/account/load-account-by-token'
 import { mockAuthenticationModel } from '@/domain/test/mock-authentication'
@@ -25,8 +23,10 @@ export const mockAuthentication = (): Authentication => {
 
 export const mockLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
-    async load (accessToken: String, role?: String): Promise<AccountModel> {
-      return await Promise.resolve(mockAccountModel())
+    async load (data: LoadAccountByToken.Params): Promise<LoadAccountByToken.Result> {
+      return await Promise.resolve({
+        id: 'any_id'
+      })
     }
   }
 
