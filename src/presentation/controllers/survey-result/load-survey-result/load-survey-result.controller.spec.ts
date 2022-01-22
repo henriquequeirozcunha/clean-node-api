@@ -6,10 +6,12 @@ import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-hel
 import { HttpRequest } from '@/presentation/protocols'
 import { mockLoadSurveyById, mockLoadSurveyResult } from '@/presentation/test'
 import { LoadSurveyResultController } from './load-survey-result.controller'
+import faker from 'faker'
 
 const mockRequest = (): HttpRequest => ({
+  accountId: faker.random.uuid(),
   params: {
-    surveyId: 'any_survey_id'
+    surveyId: faker.random.uuid()
   }
 })
 
@@ -36,9 +38,11 @@ describe('LoadSurveyResult Controller', () => {
     const { sut, loadSurveyByIdStub } = makeSut()
     const loadByIdSpy = jest.spyOn(loadSurveyByIdStub, 'loadById')
 
-    await sut.handle(mockRequest())
+    const httpRequest = mockRequest()
 
-    expect(loadByIdSpy).toHaveBeenCalledWith('any_survey_id')
+    await sut.handle(httpRequest)
+
+    expect(loadByIdSpy).toHaveBeenCalledWith(httpRequest.params.surveyId)
   })
   test('should return 403 if LoadSurveyById returns null', async () => {
     const { sut, loadSurveyByIdStub } = makeSut()
@@ -59,10 +63,11 @@ describe('LoadSurveyResult Controller', () => {
   test('should call LoadSurveyResult with correct values', async () => {
     const { sut, loadSurveyResultStub } = makeSut()
     const loadSpy = jest.spyOn(loadSurveyResultStub, 'load')
+    const httpRequest = mockRequest()
 
-    await sut.handle(mockRequest())
+    await sut.handle(httpRequest)
 
-    expect(loadSpy).toHaveBeenCalledWith('any_survey_id')
+    expect(loadSpy).toHaveBeenCalledWith(httpRequest.params.surveyId, httpRequest.accountId)
   })
   test('should return 200 with SurveyResult data on success', async () => {
     const { sut } = makeSut()
