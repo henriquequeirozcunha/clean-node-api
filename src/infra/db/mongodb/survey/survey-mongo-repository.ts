@@ -2,7 +2,6 @@ import { LoadSurveyByIdRepository } from './../../../../data/protocols/db/survey
 import { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository'
 import { LoadSurveysRepository } from '@/data/protocols/db/survey/load-surveys-repository'
 import { MongoHelper, QueryBuilder } from '../helpers'
-import { SurveyModel } from '@/domain/models/survey'
 import { ObjectId, ObjectID } from 'mongodb'
 import { CheckSurveyByIdRepository } from '@/data/protocols/db/survey/check-survey-by-id-repository'
 import { LoadAnswersBySurveyRepository } from '@/data/protocols/db/survey/load-awswers-by-survey-repository'
@@ -18,7 +17,7 @@ LoadAnswersBySurveyRepository {
     await surveyCollection.insertOne(data)
   }
 
-  async loadAll (accountId: string): Promise<SurveyModel[]> {
+  async loadAll (accountId: string): Promise<LoadSurveysRepository.Result> {
     const surveyCollection = await MongoHelper.getColletion('surveys')
     const query = new QueryBuilder()
       .lookup({
@@ -48,7 +47,7 @@ LoadAnswersBySurveyRepository {
       })
       .build()
 
-    const surveys: SurveyModel[] = await surveyCollection.aggregate(query).toArray()
+    const surveys = await surveyCollection.aggregate(query).toArray()
     return surveys && MongoHelper.mapCollection(surveys)
   }
 
