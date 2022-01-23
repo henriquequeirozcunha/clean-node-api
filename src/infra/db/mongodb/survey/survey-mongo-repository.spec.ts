@@ -1,6 +1,7 @@
 import { SurveyMongoRepository } from './survey-mongo-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { Collection } from 'mongodb'
+import FakeObjectId from 'bson-objectid'
 
 let surveyCollection: Collection
 let surveyResultCollection: Collection
@@ -103,7 +104,7 @@ describe('Survey MongoDB Repository', () => {
       expect(surveys.length).toBe(0)
     })
   })
-  describe('loadLoadById()', () => {
+  describe('loadById()', () => {
     test('Should return a Survey on success', async () => {
       const res = await surveyCollection.insertOne({
         question: 'any_question',
@@ -126,6 +127,29 @@ describe('Survey MongoDB Repository', () => {
       const sut = makeSut()
       const surveys = await sut.loadAll(accountId)
       expect(surveys.length).toBe(0)
+    })
+  })
+  describe('checkById()', () => {
+    test('Should return true if survey exists', async () => {
+      const res = await surveyCollection.insertOne({
+        question: 'any_question',
+        answers: [{
+          answer: 'any_answer',
+          image: 'any_image'
+        },
+        {
+          answer: 'other_answer'
+        }],
+        date: new Date()
+      })
+      const sut = makeSut()
+      const exists = await sut.checkById(res.ops[0]._id)
+      expect(exists).toBe(true)
+    })
+    test('Should return false if survey does not exists', async () => {
+      const sut = makeSut()
+      const exists = await sut.checkById(new FakeObjectId().toHexString())
+      expect(exists).toBe(false)
     })
   })
 })

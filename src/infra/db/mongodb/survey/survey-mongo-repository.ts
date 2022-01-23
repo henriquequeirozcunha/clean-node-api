@@ -4,8 +4,9 @@ import { LoadSurveysRepository } from '@/data/protocols/db/survey/load-surveys-r
 import { MongoHelper, QueryBuilder } from '../helpers'
 import { SurveyModel } from '@/domain/models/survey'
 import { ObjectId, ObjectID } from 'mongodb'
+import { CheckSurveyByIdRepository } from '@/data/protocols/db/survey/check-survey-by-id-repository'
 
-export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveysRepository, LoadSurveyByIdRepository {
+export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveysRepository, LoadSurveyByIdRepository, CheckSurveyByIdRepository {
   async add (data: AddSurveyRepository.Params): Promise<void> {
     const surveyCollection = await MongoHelper.getColletion('surveys')
     await surveyCollection.insertOne(data)
@@ -49,5 +50,17 @@ export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveysRe
     const surveyCollection = await MongoHelper.getColletion('surveys')
     const survey = await surveyCollection.findOne({ _id: new ObjectID(id) })
     return survey && MongoHelper.map(survey)
+  }
+
+  async checkById (id: string): Promise<CheckSurveyByIdRepository.Result> {
+    const surveyCollection = await MongoHelper.getColletion('surveys')
+    const survey = await surveyCollection.findOne({
+      _id: new ObjectID(id)
+    }, {
+      projection: {
+        _id: 1
+      }
+    })
+    return survey !== null
   }
 }
