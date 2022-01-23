@@ -8,10 +8,9 @@ import {
 } from '@/presentation/helpers/http/http-helper'
 import { mockLoadSurveysStub } from '@/presentation/test'
 import { mockSurveyModels } from '@/domain/test'
-import { HttpRequest } from '@/presentation/protocols'
 import faker from 'faker'
 
-const mockRequest = (): HttpRequest => ({ accountId: faker.random.uuid() })
+const mockRequest = (): LoadSurveysController.Request => ({ accountId: faker.random.uuid() })
 
 type SutTypes = {
   sut: LoadSurveysController
@@ -35,9 +34,9 @@ describe('LoadSurveys Controller', () => {
   test('Should call LoadSurveys with correct value', async () => {
     const { sut, loadSurveysStub } = makeSut()
     const loadSpy = jest.spyOn(loadSurveysStub, 'load')
-    const httpRequest = mockRequest()
-    await sut.handle(httpRequest)
-    expect(loadSpy).toHaveBeenCalledWith(httpRequest.accountId)
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(loadSpy).toHaveBeenCalledWith(request.accountId)
   })
   test('Should return 200 on success', async () => {
     const { sut } = makeSut()

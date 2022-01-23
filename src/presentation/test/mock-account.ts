@@ -1,15 +1,12 @@
-import { AddAccount, AddAccountParams } from '@/domain/usecases/account/add-account'
-import { AccountModel } from '@/domain/models/account'
-import { mockAccountModel } from '@/domain/test'
-import { Authentication, AuthenticationParams } from '@/domain/usecases/account/authentication'
+import { AddAccount } from '@/domain/usecases/account/add-account'
+import { Authentication } from '@/domain/usecases/account/authentication'
 import { LoadAccountByToken } from '@/domain/usecases/account/load-account-by-token'
-import { AuthenticationModel } from '@/domain/models/authentication'
 import { mockAuthenticationModel } from '@/domain/test/mock-authentication'
 
 export const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    async add (account: AddAccountParams): Promise<AccountModel> {
-      return await Promise.resolve(mockAccountModel())
+    async add (account: AddAccount.Params): Promise<AddAccount.Result> {
+      return await Promise.resolve(true)
     }
   }
   return new AddAccountStub()
@@ -17,7 +14,7 @@ export const makeAddAccount = (): AddAccount => {
 
 export const mockAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationParams): Promise<AuthenticationModel> {
+    async auth (authentication: Authentication.Params): Promise<Authentication.Result> {
       return await Promise.resolve(mockAuthenticationModel())
     }
   }
@@ -26,8 +23,10 @@ export const mockAuthentication = (): Authentication => {
 
 export const mockLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
-    async load (accessToken: String, role?: String): Promise<AccountModel> {
-      return await Promise.resolve(mockAccountModel())
+    async load (data: LoadAccountByToken.Params): Promise<LoadAccountByToken.Result> {
+      return await Promise.resolve({
+        id: 'any_id'
+      })
     }
   }
 

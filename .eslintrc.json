@@ -12,6 +12,8 @@
     "@typescript-eslint/no-redeclare": "off",
     "@typescript-eslint/no-for-in-array": "off",
     "@typescript-eslint/no-misused-promises": "off",
-    "@typescript-eslint/consistent-type-definitions": "off"
+    "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "import/export": "off"
   }
 }

@@ -1,18 +1,7 @@
-import {
-  Validation,
-  HttpRequest,
-  HttpResponse
-} from '@/presentation/protocols'
-import {
-  Authentication
-} from '@/domain/usecases/account/authentication'
+import { Validation, HttpResponse } from '@/presentation/protocols'
+import { Authentication } from '@/domain/usecases/account/authentication'
 import { LoginController } from './login-controller'
-import {
-  badRequest,
-  unauthorized,
-  serverError,
-  ok
-} from '@/presentation/helpers/http/http-helper'
+import { badRequest, unauthorized, serverError, ok } from '@/presentation/helpers/http/http-helper'
 import { throwError } from '@/domain/test'
 import { mockAuthentication, mockValidation } from '@/presentation/test'
 
@@ -33,11 +22,9 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const mockRequest = (): HttpRequest => ({
-  body: {
-    email: 'any_email@mail.com',
-    password: 'any_password'
-  }
+const mockRequest = (): LoginController.Request => ({
+  email: 'any_email@mail.com',
+  password: 'any_password'
 })
 
 describe('Login Controller', () => {
@@ -46,7 +33,7 @@ describe('Login Controller', () => {
     const validateSpy = jest.spyOn(validationStub, 'validate')
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
+    expect(validateSpy).toHaveBeenCalledWith(httpRequest)
   })
   test('Should return 400 if validation returns an error', async () => {
     const { sut, validationStub } = makeSut()
@@ -60,8 +47,8 @@ describe('Login Controller', () => {
     const fakeRequest = mockRequest()
     await sut.handle(fakeRequest)
     expect(authSpy).toHaveBeenCalledWith({
-      email: fakeRequest.body.email,
-      password: fakeRequest.body.password
+      email: fakeRequest.email,
+      password: fakeRequest.password
     })
   })
   test('Should return 401 if Invalid Credentials are provided', async () => {
